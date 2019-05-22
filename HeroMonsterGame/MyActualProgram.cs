@@ -60,6 +60,9 @@ namespace HeroMonsterGame
                     //case HeroChoice.Fireball:
                     //    HeroFireball(hero);
                     //    break;
+
+                    // change back to if statements for wrong input "else"
+                    // or put if statement around switch case
                 }
 
                 if (monster.Health <= 0)
