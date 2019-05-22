@@ -27,8 +27,8 @@ namespace HeroMonsterGame
             monster.PotionsUsed = false;
             monster.AttackValue = GetMonsterAttackValue();
 
-            Console.WriteLine($"{hero.Name}'s starting health is {hero.Health}");
-            Console.WriteLine($"{monster.Name}'s starting health is {monster.Health}\n");
+            Console.WriteLine($"{hero.Name}'s Health: {hero.Health}");
+            Console.WriteLine($"{monster.Name}'s Health: {monster.Health}\n");
 
             while (hero.Health > 0)
             {
@@ -62,6 +62,11 @@ namespace HeroMonsterGame
                     //    break;
                 }
 
+                if (monster.Health <= 0)
+                {
+                    break;
+                }
+
                 Console.WriteLine($"It's {monster.Name}'s turn!\n");
 
                 Random monsterRnd = new Random();
@@ -87,37 +92,36 @@ namespace HeroMonsterGame
 
                 Console.WriteLine("--------------------------------------------------------------------------");
 
-                while (hero.Health <= 0)
-                {
-                    EndGame(hero, monster);
-                }
+            }
 
-                while (monster.Health <= 0)
-                {
-                    EndGame(hero, monster);
-                }
+            if (hero.Health <= 0)
+            {
+                EndGame(hero, monster);
+            }
+
+            if (monster.Health <= 0)
+            {
+                EndGame(hero, monster);
             }
         }
 
         public int GetHeroAttackValue()
         {
             Random rndAttack = new Random();
-            var attackValue = rndAttack.Next(10, 40);
+            var attackValue = rndAttack.Next(7, 31);
             return attackValue;
         }
 
         public void HeroAttack(Hero hero, Monster monster)
         {
-            hero.PotionsUsed = false;
-
-            monster.Health -= hero.AttackValue;
-
             if (monster.PotionsUsed == true)
             {
-                Console.WriteLine($"{monster.Name} used potion and blocked your attack!\n");
+                Console.WriteLine($"{monster.Name} previously used potion and blocked your attack!\n");
+                monster.PotionsUsed = false;
             }
             else
             {
+                monster.Health -= hero.AttackValue;
                 Console.WriteLine($"{monster.Name}'s HP is now {monster.Health}\n");
             }
         }
@@ -149,6 +153,7 @@ namespace HeroMonsterGame
             if (hero.DefensePotions <= 0)
             {
                 Console.WriteLine("You tried to use a potion but you are all out!\n");
+                hero.PotionsUsed = false;
             }
             else
             {
@@ -166,22 +171,20 @@ namespace HeroMonsterGame
         public int GetMonsterAttackValue()
         {
             Random rndAttack = new Random();
-            var attackValue = rndAttack.Next(5, 25);
+            var attackValue = rndAttack.Next(4, 26);
             return attackValue;
         }
 
         public void MonsterAttack(Monster monster, Hero hero)
         {
-            monster.PotionsUsed = false;
-
-            hero.Health -= monster.AttackValue;
-
             if (hero.PotionsUsed == true)
             {
-                Console.WriteLine($"His attack was worthless because of your potion! Dumb bitch!\n");
+                Console.WriteLine($"His attack was worthless because of your defense potion! Dumb bitch!\n");
+                hero.PotionsUsed = false;
             }
             else
             {
+                hero.Health -= monster.AttackValue;
                 Console.WriteLine($"Hero HP is now {hero.Health}\n");
             }
         }
@@ -213,6 +216,7 @@ namespace HeroMonsterGame
             if (monster.Potions <= 0)
             {
                 Console.WriteLine($"{monster.Name} tried to use a potion but he was all out!\n");
+                monster.PotionsUsed = false;
             }
             else
             {
@@ -232,15 +236,17 @@ namespace HeroMonsterGame
             if (hero.Health <= 0)
             {
                 Console.WriteLine("Monster wins!");
+                Console.WriteLine($"{hero.Name}'s Health: {hero.Health}");
+                Console.WriteLine($"{monster.Name}'s Health: {monster.Health}");
                 return;
             }
             else if (monster.Health <= 0)
             {
                 Console.WriteLine("Hero wins!");
+                Console.WriteLine($"{hero.Name}'s Health: {hero.Health}");
+                Console.WriteLine($"{monster.Name}'s Health: {monster.Health}");
                 return;
             }
-
-            return;
         }
     }
 }
