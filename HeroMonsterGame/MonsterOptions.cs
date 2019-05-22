@@ -8,7 +8,7 @@ namespace HeroMonsterGame
     {
         Attack = 1,
         Heal,
-        Potion,
-        Fireball
+        DefensePotion
+        //Fireball
     }
 }
